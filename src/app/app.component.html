@@ -1,7 +1,14 @@
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-<div class="container">
-    <div class="page-header">
-        <h1>{{title}}</h1>
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            &nbsp;&nbsp;
+            <fa-icon icon="tasks">
+            </fa-icon>
+            &nbsp;&nbsp;
+            <h5 class="card-title">{{title}}</h5>
+        </div>
+    </div>
+    <div class="card-body">
+        <router-outlet></router-outlet>
+    </div>
 </div>
-
-<router-outlet></router-outlet>
