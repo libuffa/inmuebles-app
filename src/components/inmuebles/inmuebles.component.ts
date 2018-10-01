@@ -17,7 +17,7 @@ export class InmueblesComponent implements OnInit {
 
   /*constructor() {
     this.inmuebles = [
-      new Inmueble("1", "Casa Mar del Plata", 1650000, 1, true),
+      new Inmueble("1", "Casa Mar del Plata apto credito", 1650000, 1, true),
       new Inmueble("2", "Casa Pinamar", 2650000, 1, false)
     ]
   }*/
@@ -30,7 +30,12 @@ export class InmueblesComponent implements OnInit {
 
     this.access_token = this.inmueblesService.getAuthorize()
 
-    const inmueble = new Inmueble("1", "Casa Mar del Plata - Por favor, NO OFERTAR", 1650000, 1, true)
+    this.inmuebles = [
+      new Inmueble("1", "Casa Mar del Plata apto credito", 1650000, 1),
+      new Inmueble("2", "Casa Pinamar", 2650000, 1)
+    ]
+
+    const inmueble = new Inmueble("1", "Casa Mar del Plata - Por favor, NO OFERTAR", 1650000, 1)
     this.inmueblesService.postInmueble(this.access_token, inmueble)
 
   }

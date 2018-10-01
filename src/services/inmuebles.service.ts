@@ -31,7 +31,7 @@ export class InmueblesService implements IInmueblesService {
     }*/
 
     getInmuebleById(id: number) {
-        return this.http.get(REST_SERVER_URL + "/Inmuebles/" + id).pipe(map(res => this.InmuebleAsJson(res.json())))
+        return this.http.get(REST_SERVER_URL + "/items/" + id).pipe(map(res => this.InmuebleAsJson(res.json())))
     }
 
     actualizarInmueble(Inmueble: Inmueble) {

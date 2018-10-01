@@ -1,4 +1,8 @@
+import { callbackify } from "util";
+
 export default class Inmueble {
+
+    static readonly PALABRAS_CLAVES = ["apto", "credito"]
 
     id: string
     siteId: string
@@ -8,20 +12,26 @@ export default class Inmueble {
     precio: number
     moneda: number
     stock: number
-    aptoCredito: boolean
 
-    constructor(id: string, titulo: string, precio: number, stock: number, aptoCredito: boolean) {
+    constructor(id: string, titulo: string, precio: number, stock: number) {
         this.id = id
         this.siteId = "MLA"
         this.categoryId = "MLA401686"
         this.titulo = titulo
         this.precio = precio
         this.stock = stock
-        this.aptoCredito = aptoCredito
     }
 
     get inmuebleAptoCredito() {
-        return this.aptoCredito ? "table-success" : ""
+        return this.contienePalabrasClave() ? "table-success" : ""
+    }
+
+    contienePalabrasClave(){
+        return Inmueble.PALABRAS_CLAVES.every(palabra => this.titulo.includes(palabra.toLowerCase()))
+    }
+    
+    contienePalabraClave(palabraClave: string){
+        return this.titulo.includes(palabraClave.toLowerCase())
     }
 
     static fromJson(inmuebleJSON) {
@@ -30,7 +40,6 @@ export default class Inmueble {
             inmuebleJSON.titulo,
             inmuebleJSON.precio,
             inmuebleJSON.stock,
-            inmuebleJSON.aptoCredito
         )
     }
 
