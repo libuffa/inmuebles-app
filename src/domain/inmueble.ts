@@ -3,6 +3,7 @@ import { callbackify } from "util";
 export default class Inmueble {
 
     static readonly PALABRAS_CLAVES = ["apto", "credito"]
+    static readonly PALABRAS_CLAVES_NEGACION  = ["no apto", "credito"]
 
     id: string
     siteId: string
@@ -23,15 +24,27 @@ export default class Inmueble {
     }
 
     get inmuebleAptoCredito() {
-        return this.contienePalabrasClave() ? "table-success" : ""
+        return this.descripcionAptoCredito() ? "table-success" : ""
+    }
+
+    descripcionAptoCredito() {
+        return this.contienePalabrasClave() && this.contienePalabrasClaveNegacion()
+    }
+
+    contienePalabrasClaveNegacion(){
+        return !Inmueble.PALABRAS_CLAVES_NEGACION.every(palabra => this.contienePalabraClaveNegacion(palabra))
+    }
+
+    contienePalabraClaveNegacion(palabraClave: string) {
+        return this.titulo.toLowerCase().includes(palabraClave)
     }
 
     contienePalabrasClave(){
-        return Inmueble.PALABRAS_CLAVES.every(palabra => this.titulo.includes(palabra.toLowerCase()))
+        return Inmueble.PALABRAS_CLAVES.every(palabra => this.contienePalabraClave(palabra))
     }
     
     contienePalabraClave(palabraClave: string){
-        return this.titulo.includes(palabraClave.toLowerCase())
+        return this.titulo.toLowerCase().includes(palabraClave)
     }
 
     static fromJson(inmuebleJSON) {

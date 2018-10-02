@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core'
 import Inmueble from '../../domain/inmueble'
 import { InmueblesService } from '../../services/inmuebles.service'
+import { StubInmueblesService } from '../../services/inmuebles.service'
 import { Router } from '@angular/router'
 import { Http } from '@angular/http';
 
@@ -22,7 +23,7 @@ export class InmueblesComponent implements OnInit {
     ]
   }*/
 
-  constructor(private inmueblesService: InmueblesService, private router: Router) { }
+  constructor(private inmueblesService: StubInmueblesService, private router: Router) { }
 
   ngOnInit(): void {
 
@@ -30,14 +31,16 @@ export class InmueblesComponent implements OnInit {
 
     this.access_token = this.inmueblesService.getAuthorize()
 
-    this.inmuebles = [
-      new Inmueble("1", "Casa Mar del Plata apto credito", 1650000, 1),
-      new Inmueble("2", "Casa Pinamar", 2650000, 1)
-    ]
+    const inmueble = new Inmueble("1", "Casa Mar del Plata apto credito", 1650000, 1)
 
-    const inmueble = new Inmueble("1", "Casa Mar del Plata - Por favor, NO OFERTAR", 1650000, 1)
     this.inmueblesService.postInmueble(this.access_token, inmueble)
 
+    this.inmuebles = this.inmueblesService.todosLosInmuebles()
+
+  }
+
+  editar(inmueble: Inmueble) {
+    this.router.navigate(['/editar', inmueble.id])
   }
 
 }

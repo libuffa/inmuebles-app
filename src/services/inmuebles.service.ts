@@ -12,8 +12,11 @@ import { Session } from 'protractor';
 
 export interface IInmueblesService {
     //todasLasInmuebles(): Observable<any>
-    getInmuebleById(id: number): Observable<Inmueble>
+    getInmuebleById(id: string)
     postInmueble(access_token: string, inmueble: Inmueble)
+    actualizarInmueble(access_token: string, inmueble: Inmueble)
+    getAuthorize()
+    todosLosInmuebles()
 }
 
 @Injectable({
@@ -26,16 +29,18 @@ export class InmueblesService implements IInmueblesService {
 
     constructor(private http: Http) { }
 
-    /*todasLasInmuebles() {
-        return this.http.get(REST_SERVER_URL + "/Inmuebles").pipe(map(this.convertToInmuebles))
-    }*/
+    todosLosInmuebles() {
+        //return this.http.get(REST_SERVER_URL + "/Inmuebles").pipe(map(this.convertToInmuebles))
+        let inmuebles: Array<Inmueble> = []
+        return inmuebles
+    }
 
-    getInmuebleById(id: number) {
+    getInmuebleById(id: string) {
         return this.http.get(REST_SERVER_URL + "/items/" + id).pipe(map(res => this.InmuebleAsJson(res.json())))
     }
 
-    actualizarInmueble(Inmueble: Inmueble) {
-        this.http.put(REST_SERVER_URL + "/Inmuebles/" + Inmueble.id, Inmueble.toJSON()).subscribe()
+    actualizarInmueble(access_token: string, inmueble: Inmueble) {
+        this.http.put(REST_SERVER_URL + "/items/" + inmueble.id + access_token, inmueble.toJSON()).subscribe()
     }
 
     private convertToInmuebles(res: Response) {
@@ -51,8 +56,8 @@ export class InmueblesService implements IInmueblesService {
         this.http.post(REST_SERVER_URL + '/users/test_user?access_token=' + access_token, Object.assign({}, SITE_ID)).subscribe(
             data => this.usuario.fromJSON(data),
             error => this.errors.push(error)
-        )
-    }*/
+            )
+        }*/
 
     getAuthorize() {
         const URL = 'https://auth.mercadolibre.com.ar/authorization?response_type=token&client_id='
@@ -67,6 +72,47 @@ export class InmueblesService implements IInmueblesService {
 
     postInmueble(access_token: string, inmueble: Inmueble) {
         //this.setUsuarioTest
-        this.http.post(REST_SERVER_URL + '/items?access_token' + access_token, inmueble.toJSON).subscribe
+        this.http.post(REST_SERVER_URL + '/items?access_token' + access_token, inmueble.toJSON).subscribe()
     }
+
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class StubInmueblesService implements IInmueblesService {
+    
+    inmuebles: Array<Inmueble>
+    
+    constructor() { }
+    
+    getInmuebleById(id: string) {
+        const inmueble$ = this.inmuebles.find(inmueble => inmueble.id == id)
+        return inmueble$
+    }
+    
+    postInmueble(access_token: string, inmueble: Inmueble) {
+        this.inmuebles = [
+            new Inmueble("1", "Casa Mar del Plata apto credito", 1650000, 1),
+            new Inmueble("2", "Casa Pinamar no apto credito", 2650000, 1)
+        ]
+    }
+    
+    actualizarInmueble(access_token: string, inmueble: Inmueble) {
+        let inmueble$ = this.getInmuebleById(inmueble.id)
+        inmueble$ = inmueble
+    }
+    
+    getAuthorize() {
+        return "0"
+    }
+
+    todosLosInmuebles() {
+        this.inmuebles = [
+            new Inmueble("1", "Casa Mar del Plata apto credito", 1650000, 1),
+            new Inmueble("2", "Casa Pinamar no apto credito", 2650000, 1)
+        ]
+        return this.inmuebles
+    }
+    
 }

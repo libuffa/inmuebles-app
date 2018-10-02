@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { InmueblesComponent } from '../components/inmuebles/inmuebles.component'
-//import { EditarComponent } from '../components/editar/editar.component'
+import { EditarComponent } from '../components/editar/editar.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/inmuebles', pathMatch: 'full' },
   { path: 'inmuebles',     component: InmueblesComponent },
-  //{ path: 'editar/:id', component: EditarComponent}
+  { path: 'editar/:id', component: EditarComponent}
 ];
 
 @NgModule({
@@ -15,4 +15,4 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 
-export const routingComponents = [ InmueblesComponent/*, EditarComponent*/ ]
+export const routingComponents = [ InmueblesComponent, EditarComponent ]

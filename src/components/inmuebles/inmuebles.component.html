@@ -9,15 +9,18 @@
             <tr>
               <th>Descripci&oacute;n</th>
               <th>Precio</th>
+              <th>Boleto Entrada</th>
               <th>Acciones</th>
             </tr>
             <tr *ngFor="let inmueble of inmuebles" class="animate-repeat {{inmueble.inmuebleAptoCredito}}">
                 <td class="col-xs-6 ">{{inmueble.titulo}}</td>
                 <td class="col-xs-2">{{inmueble.precio | number:'1.2-3':'es'}}</td>
+                <td class="col-xs-2"><div *ngIf="inmueble.inmuebleAptoCredito">
+                  {{inmueble.precio * 0.1 | number:'1.2-3':'es'}}</div></td>
               
                 <td nowrap class="col-xs-2">
                   <button id="asignarModal" type="button" title="Editar" class="btn btn-success"
-                    aria-label="Asignarme">
+                    aria-label="Asignarme" (click)="editar(inmueble)">
                     <fa-icon icon="calendar-check"></fa-icon>
                   </button>
                 </td>
